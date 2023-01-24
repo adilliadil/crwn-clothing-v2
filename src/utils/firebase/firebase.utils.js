@@ -21,13 +21,13 @@ import {
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCruq6LhCrrBX4zpZAeWJuk0GaDym0uN64",
-    authDomain: "crwn-clothing-db-20c3a.firebaseapp.com",
-    projectId: "crwn-clothing-db-20c3a",
-    storageBucket: "crwn-clothing-db-20c3a.appspot.com",
-    messagingSenderId: "847426369500",
-    appId: "1:847426369500:web:b74f285973b053a86dc119"
-    };
+  apiKey: "AIzaSyCruq6LhCrrBX4zpZAeWJuk0GaDym0uN64",
+  authDomain: "crwn-clothing-db-20c3a.firebaseapp.com",
+  projectId: "crwn-clothing-db-20c3a",
+  storageBucket: "crwn-clothing-db-20c3a.appspot.com",
+  messagingSenderId: "847426369500",
+  appId: "1:847426369500:web:b74f285973b053a86dc119"
+};
 
 const firebaseApp = initializeApp(firebaseConfig);
 
@@ -115,3 +115,16 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    )
+  })
+}
